@@ -1,7 +1,7 @@
-import '../pages/index.css';
-import { initialCards } from './cards';
-import { deleteCard, likeCard, createCard } from './components/card';
-import { closeModal, closeModalByEscape, closeOverlay } from './components/modal';
+import '../pages/index.css'
+import { initialCards } from './cards'
+import { deleteCard, likeCard, createCard } from './components/card'
+import { openModal, closeModal } from './components/modal'
 
 function handleFormSubmit(evt) {
   evt.preventDefault();
@@ -10,7 +10,7 @@ function handleFormSubmit(evt) {
   popupEditProfile.classList.remove('popup_is-opened');
 }
 
-// переменные
+// variables
 const formNewPlace = document.querySelector('.popup__form[name=new-place]');
 const formEditProfile = document.querySelector('.popup__form[name=edit-profile]');
 const cardContainer = document.querySelector('.places__list');
@@ -35,31 +35,26 @@ initialCards.forEach((cardData) => {
   cardContainer.append(card);
 });
 
-
 // popup'ы
+export const popupOpenImage = document.querySelector('.popup_type_image');
 const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupNewCard = document.querySelector('.popup_type_new-card');
-const popupOpenImage = document.querySelector('.popup_type_image');
 popupEditProfile.classList.add('popup_is-animated');
 popupNewCard.classList.add('popup_is-animated');
 popupOpenImage.classList.add('popup_is-animated');
 
-// новое место
-document.querySelector('.profile__add-button').addEventListener('click', function () {
-  popupNewCard.classList.add('popup_is-opened');
-  cardName.focus();
-  popupNewCard.querySelector('.popup__close').addEventListener('click', closeModal);
-  popupNewCard.addEventListener('keydown', closeModalByEscape);
-  popupNewCard.addEventListener('click', closeOverlay);
+// open popupNewCard
+document.querySelector('.profile__add-button').addEventListener('click', () => {
+  openModal(popupNewCard);
+  cardName.focus(); // делаю поле в фокусе для удобства
+  popupNewCard.querySelector('.popup__close').addEventListener('click', () => closeModal(popupNewCard));
 });
 
-// редактировать профиль
-document.querySelector('.profile__edit-button').addEventListener('click', function () {
-  popupEditProfile.classList.add('popup_is-opened');
-  nameInput.focus();
-  nameInput.value = profileTitle.textContent;
+// open popupEditProfile
+document.querySelector('.profile__edit-button').addEventListener('click', () => {
+  openModal(popupEditProfile);
+  nameInput.focus(); // делаю поле в фокусе для удобства
+  nameInput.value = profileTitle.textContent; // при открытии данные профиля сохраняется в форме
   jobInput.value = profileDescription.textContent;
-  popupEditProfile.querySelector('.popup__close').addEventListener('click', closeModal);
-  popupEditProfile.addEventListener('keydown', closeModalByEscape);
-  popupEditProfile.addEventListener('click', closeOverlay);
+  popupEditProfile.querySelector('.popup__close').addEventListener('click', () => closeModal(popupEditProfile));
 });
