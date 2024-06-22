@@ -3,6 +3,8 @@ import { initialCards } from './cards'
 import { deleteCard, likeCard, createCard } from './components/card'
 import { openModal, closeModal } from './components/modal'
 
+import { enableValidation, clearValidation } from './components/validation'
+
 // variables
 const formNewPlace = document.querySelector('.popup__form[name=new-place]');
 const formEditProfile = document.querySelector('.popup__form[name=edit-profile]');
@@ -39,6 +41,7 @@ function handleNewPlaceFormSubmit(evt) {
   closeModal(popupNewCard);
   evt.preventDefault();
   evt.target.reset();
+  clearValidation(popupNewCard);
 }
 
 initialCards.forEach((cardData) => {
@@ -65,9 +68,12 @@ document.querySelector('.profile__edit-button').addEventListener('click', () => 
   nameInput.focus(); // делаю поле в фокусе для удобства
   nameInput.value = profileTitle.textContent; // при открытии данные профиля сохраняется в форме
   jobInput.value = profileDescription.textContent;
+  clearValidation(popupEditProfile);
 });
 
 // close popups
 popupOpenImage.querySelector('.popup__close').addEventListener('click', () => closeModal(popupOpenImage));
 popupNewCard.querySelector('.popup__close').addEventListener('click', () => closeModal(popupNewCard));
 popupEditProfile.querySelector('.popup__close').addEventListener('click', () => closeModal(popupEditProfile));
+
+enableValidation();
