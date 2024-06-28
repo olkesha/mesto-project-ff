@@ -46,7 +46,7 @@ function handleNewPlaceFormSubmit(evt) {
 
 initialCards.forEach((cardData) => {
   const card = createCard(cardData.name, cardData.link, deleteCard, likeCard, openImage);
-  cardContainer.append(card);
+  cardContainer.append(card); 
 });
 
 popupEditProfile.classList.add('popup_is-animated');
