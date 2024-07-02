@@ -32,7 +32,7 @@
       © 2024 Mesto Russia
     </p>
   </footer>
-  <!--редактировать профиль-->
+  <!-- попап профиля -->
   <div class="popup popup_type_edit">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
@@ -72,7 +72,7 @@
       </form>
     </div>
   </div>
-  <!--добавить новое место-->
+  <!-- попап нового места -->
   <div class="popup popup_type_new-card">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
@@ -108,12 +108,42 @@
       </form>
     </div>
   </div>
-  <!--открыть карточку-->
+  <!-- попап открытия карточки -->
   <div class="popup popup_type_image">
     <div class="popup__content popup__content_content_image">
       <button type="button" class="popup__close"></button>
       <img src="" alt="" class="popup__image">
       <p class="popup__caption"></p>
+    </div>
+  </div>
+  <!-- попап обновления аватара -->
+  <div class="popup popup_type_update-avatar">
+    <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Обновить аватар</h3>
+      <form class="popup__form" name="update-avatar">
+        <label class="popup__label">
+          <input 
+            id="url-input" 
+            type="url" 
+            name="avatar-link" 
+            class="popup__input popup__input_type_avatar-url" 
+            placeholder="Ссылка на картинку" 
+            required
+          >
+          <span class="url-input-error popup__input-error"></span>
+        </label>
+        <!-- <label class="popup__label">
+          <input 
+            id="file-input" 
+            type="file" 
+            name="avatar-file" 
+            class="popup__input popup__input_type_avatar-file"
+          >
+          <span class="file-input-error popup__input-error"></span>
+        </label> -->
+        <button type="submit" class="button popup__button popup__button-update-avatar">Сохранить</button>
+      </form>
     </div>
   </div>
 </div>
@@ -125,7 +155,10 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
-      <button type="button" class="card__like-button"></button>
+      <div class="card__like-items">
+        <button type="button" class="card__like-button"></button>
+        <p class="card__like-number"></p>
+      </div>
     </div>
   </li>
 </template>
