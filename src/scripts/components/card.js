@@ -1,15 +1,9 @@
-import { fetchDeleteCard, fetchLikeCard, fetchUnlikeCard } from "../api";
+import { fetchDeleteCard, fetchLikeCard, fetchUnlikeCard } from "../api"
 
-export const deleteCard = (card, cardElement, userId) => {
-  if (card.owner._id !== userId) {
-    console.error('Ошибка: У вас нет прав на удаление этой карточки.');
-    return;
-  }
-
+export const deleteCard = (card, cardElement) => {
   fetchDeleteCard(card._id)
     .then(() => {
       cardElement.remove();
-      console.log('карточка удалена');
     })
     .catch(error => {
       console.error('Ошибка при загрузке данных:', error);
@@ -54,7 +48,7 @@ export function createCard(card, userId, deleteCardFunction, likeCardFunction, u
   cardImage.alt = `На фотографии: ${card.name}`;
   cardNumberOfLikes.textContent = card.likes.length;
 
-  deleteCardButton.addEventListener('click', () => deleteCardFunction(card, cardItem, userId));
+  deleteCardButton.addEventListener('click', () => deleteCardFunction(card, cardItem));
   likeCardButton.addEventListener('click', () => {
     if(likeCardButton.classList.contains('card__like-button_is-active')) {
       unlikeCardFunction(card, likeCardButton, cardNumberOfLikes);

@@ -1,9 +1,7 @@
 import '../pages/index.css'
 import { deleteCard, likeCard, unlikeCard, createCard } from './components/card'
 import { openModal, closeModal } from './components/modal'
-
 import { enableValidation, clearValidation } from './components/validation'
-
 import { fetchGetUserData, fetchGetInitialCards, fetchEditProfile, fetchAddNewCard, fetchUpdateAvatar } from './api'
 
 Promise.all([fetchGetUserData(), fetchGetInitialCards()])
@@ -27,7 +25,6 @@ const popupOpenImage = document.querySelector('.popup_type_image');
 const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupNewCard = document.querySelector('.popup_type_new-card');
 const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar');
-
 const cardContainer = document.querySelector('.places__list');
 const cardName = document.querySelector('.popup__input_type_card-name');
 const cardLink = document.querySelector('.popup__input_type_url');
@@ -107,7 +104,7 @@ function handleNewPlaceFormSubmit(evt) {
       console.error('Ошибка при загрузке данных:', error);
     })
     .finally(() => renderLoading(false, popupNewCard))
-  }
+}
 
 function handleUpdateAvatarFormSubmit(evt) {
   evt.preventDefault();
@@ -141,6 +138,16 @@ profileImage.addEventListener('click', () => {
   avatarInput.value = '';
   avatarInput.focus();
   clearValidation(popupUpdateAvatar);
+})
+
+profileImage.addEventListener('mouseover', () => {
+  profileImage.querySelector('.profile__image-overlay').style.opacity = '1';
+  profileImage.querySelector('.profile__image-update-pen').style.opacity = '1';
+})
+
+profileImage.addEventListener('mouseout', () => {
+  profileImage.querySelector('.profile__image-overlay').style.opacity = '0';
+  profileImage.querySelector('.profile__image-update-pen').style.opacity = '0';
 })
 
 // open popupNewCard
