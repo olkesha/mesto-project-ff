@@ -1,4 +1,4 @@
-import { fetchDeleteCard, fetchLikeCard, fetchUnlikeCard } from "../api"
+import { fetchDeleteCard, fetchLikeCard, fetchUnlikeCard } from "./api"
 
 export const deleteCard = (card, cardElement) => {
   fetchDeleteCard(card._id)

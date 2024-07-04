@@ -2,11 +2,11 @@ import '../pages/index.css'
 import { deleteCard, likeCard, unlikeCard, createCard } from './components/card'
 import { openModal, closeModal } from './components/modal'
 import { enableValidation, clearValidation } from './components/validation'
-import { fetchGetUserData, fetchGetInitialCards, fetchEditProfile, fetchAddNewCard, fetchUpdateAvatar } from './api'
+import { fetchGetUserData, fetchGetInitialCards, fetchEditProfile, fetchAddNewCard, fetchUpdateAvatar } from './components/api'
 
 Promise.all([fetchGetUserData(), fetchGetInitialCards()])
   .then(([userData, cards]) => {
-    const userId = userData._id;
+    userId = userData._id;
     profileTitle.textContent = userData.name;
     profileDescription.textContent = userData.about;
     profileImage.style.backgroundImage = `url(${userData.avatar})`;
@@ -36,6 +36,14 @@ const profileDescription = document.querySelector('.profile__description');
 const profileImage = document.querySelector('.profile__image');
 const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
+const validationSettings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button-inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error-active'
+}
 
 function renderLoading(isLoading, popup) {
   if(isLoading) {
@@ -70,9 +78,9 @@ function handleEditProfileFormSubmit(evt) {
   renderLoading(true, popupEditProfile);
   
   fetchEditProfile({ name: nameInput.value, about: jobInput.value })
-    .then(() => {
-      profileTitle.textContent = nameInput.value;
-      profileDescription.textContent = jobInput.value;
+    .then((userData) => {
+      profileTitle.textContent = userData.name;
+      profileDescription.textContent = userData.about;
       closeModal(popupEditProfile);
     })
     .catch(error => {
@@ -98,7 +106,6 @@ function handleNewPlaceFormSubmit(evt) {
       cardContainer.prepend(newCard);
       closeModal(popupNewCard);
       evt.target.reset();
-      clearValidation(popupNewCard);
     })
     .catch(error => {
       console.error('Ошибка при загрузке данных:', error);
@@ -115,7 +122,6 @@ function handleUpdateAvatarFormSubmit(evt) {
       profileImage.style.backgroundImage = `url(${profileData.avatar})`;
       closeModal(popupUpdateAvatar);
       evt.target.reset();
-      clearValidation(popupUpdateAvatar);
     })
     .catch(error => {
       console.error('Ошибка при загрузке данных:', error);
@@ -132,12 +138,12 @@ formNewPlace.addEventListener('submit', handleNewPlaceFormSubmit);
 formEditProfile.addEventListener('submit', handleEditProfileFormSubmit);
 formUpdateAvatar.addEventListener('submit', handleUpdateAvatarFormSubmit);
 
-// open popupUpdateAvatar
+// popupUpdateAvatar
 profileImage.addEventListener('click', () => {
   openModal(popupUpdateAvatar);
   avatarInput.value = '';
   avatarInput.focus();
-  clearValidation(popupUpdateAvatar);
+  clearValidation(popupUpdateAvatar, validationSettings);
 })
 
 profileImage.addEventListener('mouseover', () => {
@@ -150,19 +156,19 @@ profileImage.addEventListener('mouseout', () => {
   profileImage.querySelector('.profile__image-update-pen').style.opacity = '0';
 })
 
-// open popupNewCard
+// popupNewCard
 document.querySelector('.profile__add-button').addEventListener('click', () => {
   openModal(popupNewCard);
   cardName.focus(); // делаю поле в фокусе для удобства
 });
 
-// open popupEditProfile
+// popupEditProfile
 document.querySelector('.profile__edit-button').addEventListener('click', () => {
   openModal(popupEditProfile);
   nameInput.focus(); // делаю поле в фокусе для удобства
   nameInput.value = profileTitle.textContent; // при открытии данные профиля сохраняется в форме
   jobInput.value = profileDescription.textContent;
-  clearValidation(popupEditProfile);
+  clearValidation(popupEditProfile, validationSettings);
 });
 
 // close popups
@@ -171,4 +177,4 @@ popupOpenImage.querySelector('.popup__close').addEventListener('click', () => cl
 popupNewCard.querySelector('.popup__close').addEventListener('click', () => closeModal(popupNewCard));
 popupEditProfile.querySelector('.popup__close').addEventListener('click', () => closeModal(popupEditProfile));
 
-enableValidation();
+enableValidation(validationSettings);
